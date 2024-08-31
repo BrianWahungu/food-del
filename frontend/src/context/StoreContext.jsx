@@ -32,11 +32,14 @@ const StoreContextProvider = (props) => {
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItems[item];
+        if (itemInfo && itemInfo.price) { // Ensure itemInfo exists and has a price
+          totalAmount += itemInfo.price * cartItems[item];
+        }
       }
     }
     return totalAmount;
   };
+  
 
   const fetchFoodList = async () => {
     const response = await axios.get(url+"/api/food/list");
